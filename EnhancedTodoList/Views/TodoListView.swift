@@ -52,6 +52,9 @@ struct TodoListView: View {
                             Text(currentItem.details)
                         } icon: {
                             Image(systemName: currentItem.isCompleted ? "checkmark.circle" : "circle")
+                                .onTapGesture {
+                                    toggle(item: currentItem)
+                                }
                         }
                     }
                     
@@ -62,7 +65,7 @@ struct TodoListView: View {
         .onAppear {
             // Populate with example data
             if items.isEmpty {
-//                items.append(contentsOf: exampleData)
+                items.append(contentsOf: exampleData)
             }
         }
     }
@@ -72,6 +75,17 @@ struct TodoListView: View {
         let newToDoItem = TodoItem(details: newItemDetails)
         items.append(newToDoItem)
         newItemDetails = ""
+    }
+    
+    func toggle(item: TodoItem) {
+        if item.isCompleted {
+            item.completedOn = nil
+            item.isCompleted = false
+        } else {
+            item.completedOn = Date()
+            item.isCompleted = true
+        }
+        
     }
 }
 

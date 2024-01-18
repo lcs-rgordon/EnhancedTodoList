@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import Observation
 
-struct TodoItem: Identifiable {
+@Observable
+class TodoItem: Identifiable {
     
     let id = UUID()
     var details: String
