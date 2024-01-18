@@ -76,9 +76,11 @@ struct TodoListView: View {
         if item.isCompleted {
             item.completedOn = nil
             item.isCompleted = false
+            store.completedItemsCount -= 1
         } else {
             item.completedOn = Date()
             item.isCompleted = true
+            store.completedItemsCount += 1
         }
         
     }
