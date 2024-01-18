@@ -1,6 +1,6 @@
 //
 //  StatisticsView.swift
-//  EnchancedTodoList
+//  EnhancedTodoList
 //
 //  Created by Russell Gordon on 2024-01-18.
 //
