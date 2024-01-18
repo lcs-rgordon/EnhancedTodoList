@@ -6,6 +6,7 @@
 //
 
 import Charts
+import SwiftData
 import SwiftUI
 
 struct StatisticsView: View {
@@ -13,13 +14,17 @@ struct StatisticsView: View {
     // MARK: Stored properties
     
     // Access the app data store
-    @Environment(AppDataStore.self) var store
+    @Environment(\.modelContext) private var modelContext
+
+    // To hold stats about how many items have been completed or not
+    @State private var completedItemsCount = 0
+    @State private var incompleteItemsCount = 0
 
     // MARK: Computed properties
     var body: some View {
         NavigationStack {
             Group {
-                if store.items.count == 0 {
+                if completedItemsCount + incompleteItemsCount == 0 {
                     ContentUnavailableView(label: {
                         Label("No stats available", systemImage: "chart.pie.fill")
                             .foregroundStyle(.green)
@@ -37,29 +42,29 @@ struct StatisticsView: View {
                         
                         Chart {
                             
-                            if store.completedItemsCount > 0 {
+                            if completedItemsCount > 0 {
                                 SectorMark(
-                                    angle: .value("Items Completed", store.completedItemsCount),
+                                    angle: .value("Items Completed", completedItemsCount),
                                     innerRadius: .ratio(0.65),
                                     angularInset: 2.0
                                 )
                                 .foregroundStyle(.green)
                                 .annotation(position: .overlay) {
-                                    Text("\(store.completedItemsCount)")
+                                    Text("\(completedItemsCount)")
                                         .foregroundStyle(.white)
                                 }
                             }
                             
-                            if store.incompleteItemsCount > 0 {
+                            if incompleteItemsCount > 0 {
                                 
                                 SectorMark(
-                                    angle: .value("Items Not Completed", store.incompleteItemsCount),
+                                    angle: .value("Items Not Completed", incompleteItemsCount),
                                     innerRadius: .ratio(0.65),
                                     angularInset: 2.0
                                 )
                                 .foregroundStyle(.orange)
                                 .annotation(position: .overlay) {
-                                    Text("\(store.incompleteItemsCount)")
+                                    Text("\(incompleteItemsCount)")
                                         .foregroundStyle(.white)
                                 }
                             }
@@ -103,12 +108,30 @@ struct StatisticsView: View {
             }
             .navigationTitle("Statistics")
         }
+        .task {
+            
+            // How many completed items? (Defaults to zero if no items found at all.)
+            let completedItemsPredicate = #Predicate<TodoItem> { item in
+                item.isCompleted == true
+            }
+            let completedItemsDescriptor = FetchDescriptor<TodoItem>(predicate: completedItemsPredicate)
+            completedItemsCount = (try? modelContext.fetchCount(completedItemsDescriptor)) ?? 0
+            
+            // How many incomplete items? (Defaults to zero if no items found at all.)
+            let incompleteItemsPredicate = #Predicate<TodoItem> { item in
+                item.isCompleted == false
+            }
+            let incompleteItemsDescriptor = FetchDescriptor<TodoItem>(predicate: incompleteItemsPredicate)
+            incompleteItemsCount = (try? modelContext.fetchCount(incompleteItemsDescriptor)) ?? 0
+
+        }
+
 
     }
 }
 
 #Preview {
     LandingView(selectedTab: 2)
-        .environment(AppDataStore(useTestData: true))
+        .modelContainer(TodoItem.preview)
 }
 

@@ -5,6 +5,7 @@
 //  Created by Russell Gordon on 2024-01-18.
 //
 
+import SwiftData
 import SwiftUI
 
 struct TodoListView: View {
@@ -15,7 +16,10 @@ struct TodoListView: View {
     @State private var newItemDetails = ""
     
     // Access the app data store
-    @Environment(AppDataStore.self) var store
+    @Environment(\.modelContext) private var modelContext
+    
+    // Run a query to obtain the list of to-do items previously persisted
+    @Query private var items: [TodoItem]
     
     // MARK: Computed properties
     var body: some View {
@@ -33,7 +37,7 @@ struct TodoListView: View {
                 }
                 .padding(20)
                 
-                if store.items.isEmpty {
+                if items.isEmpty {
                     
                     ContentUnavailableView(label: {
                         Label(
@@ -47,7 +51,7 @@ struct TodoListView: View {
                     
                 } else {
                     
-                    List(store.items) { currentItem in
+                    List(items) { currentItem in
                         Label {
                             Text(currentItem.details)
                         } icon: {
@@ -68,7 +72,7 @@ struct TodoListView: View {
     // MARK: Functions
     func addItem() {
         let newToDoItem = TodoItem(details: newItemDetails)
-        store.items.append(newToDoItem)
+        modelContext.insert(newToDoItem)
         newItemDetails = ""
     }
     
@@ -76,11 +80,9 @@ struct TodoListView: View {
         if item.isCompleted {
             item.completedOn = nil
             item.isCompleted = false
-            store.completedItemsCount -= 1
         } else {
             item.completedOn = Date()
             item.isCompleted = true
-            store.completedItemsCount += 1
         }
         
     }
@@ -88,5 +90,5 @@ struct TodoListView: View {
 
 #Preview {
     LandingView()
-        .environment(AppDataStore(useTestData: true))
+        .modelContainer(TodoItem.preview)
 }
