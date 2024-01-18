@@ -14,6 +14,7 @@
 		817E0C5A2B597D5000D126F4 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817E0C532B597D5000D126F4 /* LandingView.swift */; };
 		817E0C5B2B597D5000D126F4 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817E0C542B597D5000D126F4 /* TodoListView.swift */; };
 		817E0C5C2B597D5000D126F4 /* EnhancedTodoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817E0C552B597D5000D126F4 /* EnhancedTodoListApp.swift */; };
+		817E0C5E2B599A9D00D126F4 /* AppDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817E0C5D2B599A9D00D126F4 /* AppDataStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		817E0C532B597D5000D126F4 /* LandingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		817E0C542B597D5000D126F4 /* TodoListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
 		817E0C552B597D5000D126F4 /* EnhancedTodoListApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhancedTodoListApp.swift; sourceTree = "<group>"; };
+		817E0C5D2B599A9D00D126F4 /* AppDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		817E0C4F2B597D5000D126F4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				817E0C5D2B599A9D00D126F4 /* AppDataStore.swift */,
 				817E0C502B597D5000D126F4 /* TodoItem.swift */,
 			);
 			path = Model;
@@ -167,6 +170,7 @@
 				817E0C5B2B597D5000D126F4 /* TodoListView.swift in Sources */,
 				817E0C592B597D5000D126F4 /* StatisticsView.swift in Sources */,
 				817E0C5C2B597D5000D126F4 /* EnhancedTodoListApp.swift in Sources */,
+				817E0C5E2B599A9D00D126F4 /* AppDataStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

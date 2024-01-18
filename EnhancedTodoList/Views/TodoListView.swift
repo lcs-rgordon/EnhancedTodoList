@@ -14,8 +14,8 @@ struct TodoListView: View {
     // The item currently being created
     @State private var newItemDetails = ""
     
-    // Our list of items to complete
-    @State private var items: [TodoItem] = []
+    // Access the app data store
+    @Environment(AppDataStore.self) var store
     
     // MARK: Computed properties
     var body: some View {
@@ -33,7 +33,7 @@ struct TodoListView: View {
                 }
                 .padding(20)
                 
-                if items.isEmpty {
+                if store.items.isEmpty {
                     
                     ContentUnavailableView(label: {
                         Label(
@@ -47,7 +47,7 @@ struct TodoListView: View {
                     
                 } else {
                     
-                    List(items) { currentItem in
+                    List(store.items) { currentItem in
                         Label {
                             Text(currentItem.details)
                         } icon: {
@@ -62,18 +62,13 @@ struct TodoListView: View {
             }
             .navigationTitle("Tasks")
         }
-        .onAppear {
-            // Populate with example data
-            if items.isEmpty {
-                items.append(contentsOf: exampleData)
-            }
-        }
+        
     }
     
     // MARK: Functions
     func addItem() {
         let newToDoItem = TodoItem(details: newItemDetails)
-        items.append(newToDoItem)
+        store.items.append(newToDoItem)
         newItemDetails = ""
     }
     
@@ -91,4 +86,5 @@ struct TodoListView: View {
 
 #Preview {
     LandingView()
+        .environment(AppDataStore(useTestData: true))
 }
